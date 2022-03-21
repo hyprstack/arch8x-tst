@@ -1,0 +1,14 @@
+{
+  "name": "jestmocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "question10.spec.js",
+  "scripts": {
+    "test": "jest --config ./jest.config.json --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^27.5.1"
+  }
+}
