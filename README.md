@@ -20,9 +20,9 @@ Use cases for `Map`:
 with `npm unlink <packageName>` which would remove the local symlink (not the global one) and then run `npm install` to
 install the remote published version of the library.
 
-5 - See script `question5.js`
+5 - See script `bufferQuestions/question5.ts`
 
-6 - See script `question6.js`
+6 - See script `bufferQuestions/question6.ts`
 
 7 - See script `question7.js`
 
@@ -38,4 +38,4 @@ install the remote published version of the library.
 9 - `Enums` are enumerated global constant identifiers. `Enums` are also specific to typescript and do not exist in Javascript.
 `Enums` allow a user to define an accessible list with human readable values. `Object` is the type level extension of objects in Javascript.
 
-1- - See `jestMocks/question10.spec.js`
+10 - See `jestMocks/question10.spec.js`
