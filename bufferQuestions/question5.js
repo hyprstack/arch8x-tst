@@ -17,24 +17,29 @@ function encodeBuffer(data) {
     var res = {};
     for (var _i = 0, _a = Object.entries(data); _i < _a.length; _i++) {
         var _b = _a[_i], key = _b[0], value = _b[1];
-        if (typeof value === "bigint") {
-            var buf = Buffer.allocUnsafe(8);
-            buf.writeBigInt64BE(value, 0);
-            res[key] = buf;
+        var _val = value;
+        // It was not specified if an error should be thrown if symbol is greater than length 3
+        if (key === "symbol" && typeof _val === "string") {
+            _val = _val.slice(0, 3);
         }
-        else {
-            res[key] = value;
-        }
+        // if (typeof _val === "bigint") {
+        //   const buf = Buffer.alloc(8);
+        //   buf.writeBigInt64BE(_val, 0);
+        //   res[key] = buf;
+        // } else {
+        //   res[key] = _val;
+        // }
+        res[key] = _val;
     }
     return Buffer.from(JSON.stringify(res));
 }
 var sample = {
-    symbol: "$",
-    price: BigInt(9007199254099),
-    quantity: BigInt(9007199254099),
+    symbol: "BTC",
+    price: BigInt(90071993),
+    quantity: BigInt(90071992),
     side: side.buy,
     type: type.market
 };
 var res = encodeBuffer(sample);
-console.log(res);
+console.log(res.length);
 console.log(DecodeBuffer(res));
