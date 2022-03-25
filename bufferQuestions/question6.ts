@@ -3,19 +3,19 @@
  * Created by mariomendes (https://github.com/hyprstack) on 21/03/2022.
  */
 
-function decodeBuffer(data: Buffer) {
-  const parsed = JSON.parse(data.toString("utf8"));
-  let res = {};
-  for (const [key, value] of Object.entries(parsed)) {
-    if (key === "price" || key === "quantity") {
-      const buf = Buffer.from(JSON.stringify(value));
-      res[key] = buf.readBigUInt64BE(0);
-    } else {
-      res[key] = value;
-    }
-  }
+function getValue(data: Buffer, offsetSrt: number, offsetEnd: number): string {
+  return data.toString("utf-8", offsetSrt, offsetEnd);
+}
 
-  return res;
+function decodeBuffer(data: Buffer) {
+  const map = new Map();
+  map.set("symbol", getValue(data, 0, 3));
+  map.set("price", BigInt(getValue(data, 4, 11)));
+  map.set("quantity", BigInt(getValue(data, 12, 19)));
+  map.set("side", parseInt(getValue(data, 20, 21)));
+  map.set("type", parseInt(getValue(data, 21, 22)));
+
+  return map;
 }
 
 module.exports = decodeBuffer;

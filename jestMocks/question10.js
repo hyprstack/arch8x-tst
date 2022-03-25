@@ -5,7 +5,7 @@
 
 class Employee {
   async fetchAllRecords() {
-    return ["1", "2", "3"];
+    return ["a", "b", "c"];
   }
 }
 

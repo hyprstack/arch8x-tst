@@ -24,37 +24,54 @@ type dataObj = {
 // Given there is no description on the format of the output or input to the method, I decided to produce and consume an object and sequentially iterate through it using the Object.entries
 // method which ensures order of properties.
 function encodeBuffer(data: dataObj): Buffer {
-  let res = {};
+  let res = Buffer.alloc(22);
 
   for (const [key, value] of Object.entries(data)) {
     let _val = value;
 
-    // It was not specified if an error should be thrown if symbol is greater than length 3
-    if (key === "symbol" && typeof _val === "string") {
-      _val = _val.slice(0, 3);
-    }
-
-    if (typeof _val === "bigint") {
-      const buf = Buffer.alloc(8);
-      buf.writeBigInt64BE(_val, 0);
-      res[key] = buf;
-    } else {
-      res[key] = _val;
+    switch (key) {
+      case "symbol":
+        if (typeof _val === "string") {
+          res.write(_val, 0);
+        }
+        break;
+      case "price":
+        if (typeof _val === "bigint") {
+          res.write(_val.toString(), 4);
+        }
+        break;
+      case "quantity":
+        if (typeof _val === "bigint") {
+          res.write(_val.toString(), 12);
+        }
+        break;
+      case "side":
+        if (typeof _val === "number") {
+          res.write(_val.toString(), 20);
+        }
+        break;
+      case "type":
+        if (typeof _val === "number") {
+          res.write(_val.toString(), 21);
+        }
+        break;
+      default:
+        break;
     }
   }
 
-  return Buffer.from(JSON.stringify(res));
+  return res;
 }
 
 const sample: dataObj = {
   symbol: "BTC",
   price: BigInt(90071993),
-  quantity: BigInt(90071992),
+  quantity: BigInt(90991992),
   side: side.buy,
   type: type.market,
 };
 
 const res: Buffer = encodeBuffer(sample);
 
-console.log(res.length);
+console.log(res.toString("utf-8", 4, 12));
 console.log(DecodeBuffer(res));

@@ -4,7 +4,9 @@
  */
 const Employee = require("./question10");
 
-const fetchRecordsMock = jest.spyOn(Employee.prototype, "fetchAllRecords");
+const fetchRecordsMock = jest
+  .spyOn(Employee.prototype, "fetchAllRecords")
+  .mockImplementation(() => Promise.resolve(["1", "2", "3"]));
 
 describe("Employee class", () => {
   describe("FetchAllRecords", () => {
