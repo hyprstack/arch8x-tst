@@ -32,7 +32,7 @@ function encodeBuffer(data: dataObj): Buffer {
     switch (key) {
       case "symbol":
         if (typeof _val === "string") {
-          res.write(_val, 0);
+          res.write(_val.slice(0, 3), 0);
         }
         break;
       case "price":
